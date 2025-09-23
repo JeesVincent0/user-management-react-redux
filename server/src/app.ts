@@ -1,9 +1,19 @@
-import express,  { type Request, type Response} from 'express';
+import express, { type Response, type Request } from 'express';
+import userRoutes from './routes/userRoutes/authRoutes.js';
+import cors from 'cors';
 
 const app = express();
 
-app.get('/', (req: Request, res: Response) => {
-    res.send("Hello this server is fine")
+app.use(cors());
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.use((req, res, next) => {
+    console.log(`Request Details: - ${req.method} ${req.originalUrl}`)
+    next();
 })
+
+app.use("/api", userRoutes)
 
 app.listen(3000, () => console.log("server connected"))

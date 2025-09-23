@@ -1,0 +1,28 @@
+{
+  "name": "user-management-react-redux",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client": "cd client && npm run dev",
+    "server:tsc": "cd server && tsc --watch",
+    "server:node": "cd server && nodemon dist/index.js",
+    "start": "concurrently \"npm run client\" \"npm run server:tsc\" \"npm run server:node\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JeesVincent0/user-management-react-redux.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/JeesVincent0/user-management-react-redux/issues"
+  },
+  "homepage": "https://github.com/JeesVincent0/user-management-react-redux#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "wait-on": "^9.0.1"
+  }
+}
