@@ -3,7 +3,7 @@ export const userLoginFormStyle = {
     formContainer: `${center()} flex-col gap-7 h-[500px] w-[400px] bg-white shadow-2xl rounded-2xl`,
     heading: `text-2xl font-semibold`,
     inputField: `${buttonInputStyle("#7248B6")} bg-[#E8F0FE]`,
-    buttonStyle: `${center()} ${buttonInputStyle("#7248B6")} cursor-pointer font-bold text-[#7248B6] hover:text-white hover:bg-[#7248B6]`,
+    buttonStyle: `${center()} ${buttonInputStyle("#7248B6")}  font-bold text-[#7248B6] hover:text-white hover:bg-[#7248B6]`,
     formStatus: `hover:underline cursor-pointer`,
 }
 

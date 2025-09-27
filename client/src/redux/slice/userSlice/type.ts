@@ -18,7 +18,16 @@ export interface User {
 }
 
 export interface FormDataOne {
+    name?: string;
     email: string;
-    newPassword: string;
+    newPassword?: string;
     confirmPassword?: string;
+    password?: string;
+}
+
+export interface ApiResponse {
+    status: string;
+    data? : any;
+    error?: string;
+    user?: User;
 }

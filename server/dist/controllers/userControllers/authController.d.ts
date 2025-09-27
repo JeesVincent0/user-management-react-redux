@@ -1,7 +1,7 @@
 import { type Request, type Response } from "express";
 declare const authController: {
-    createUser: (req: Request, res: Response) => void;
-    logout: (req: Request, res: Response) => void;
+    createUser: (req: Request, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
+    verifyLogin: (req: Request, res: Response) => Promise<Response<any, Record<string, any>> | undefined>;
 };
 export default authController;
 //# sourceMappingURL=authController.d.ts.map
