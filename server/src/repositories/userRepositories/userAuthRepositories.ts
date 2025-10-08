@@ -1,21 +1,30 @@
-import User, { type IUser } from "../../model/userSchema.js";
-import { userAuthServices } from "../../services/userServices/userAuthServices.js";
-import { hashToken } from "../../utility/hashToken.js";
+import { type IUser } from "../../model/userSchema.js";
 
-export class userAuthRepositories {
+export class UserAuthRepositories {
+
+    constructor(
+        private user: any,
+    ) { };
+
     async findUserByEmail(email: string): Promise<IUser | null> {
-        return await User.findOne({ email });
+        return await this.user.findOne({ email });
     }
-    async createNewUser(name: string, email: string, password: string): Promise<IUser> {
 
-        const userServices = new userAuthServices();
-        const hashPassword = await userServices.passwordHashing(password);
-
-        const newUser = new User({ name, email, hashPassword });
+    async createNewUser(name: string, email: string, hashPassword: string): Promise<IUser> {
+        const newUser = new this.user({ name, email, hashPassword });
         return await newUser.save();
+    }
 
+    async updateRefreshToken(token: string, email: string) {
+        await this.user.updateOne({ email }, { $push: { refreshTokens: { token } } });
     }
-    async updateRefreshToken(refreshToken: string, email: string) {
-        await User.updateOne({ email }, { $push: { refreshTokens: { token: hashToken(refreshToken) } } });
+
+    async existingUser(email: string, id: string) {
+        return await this.user.findOne({ email, _id: { $ne: id } });
     }
-}
+
+    async updateProfile(id: string, updateData: any) {
+        return await this.user.findByIdAndUpdate(id, updateData, { new: true });
+    }
+
+};

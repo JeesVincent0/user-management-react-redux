@@ -5,14 +5,14 @@ export const accessTokenValidation = (req: Request, res: Response, next: NextFun
 
     const accessToken = req.cookies.accessToken;
 
-    if (!accessToken) return res.status(401).json({ status: 'failed', validation: false, message: "access token not valid..." });
+    if (!accessToken) return res.status(401).json({ status: 'failed', validation: 'failed', message: "access one token not valid..." });
 
     const ACCESS_TOKEN_SECRET_KEY: string = process.env.ACCESS_JWT_TOKEN_SECRET_KEY || '';
 
     jwt.verify(accessToken, ACCESS_TOKEN_SECRET_KEY, (err: any, decoded: any) => {
         
         if (err) {
-            return res.status(401).json({ status: 'failed', validation: false, message: "access token not valid..." });
+            return res.status(401).json({ status: 'failed', validation: 'failed', message: "access two token not valid..." });
         }
         
         (req as any).user = decoded;
@@ -25,13 +25,13 @@ export const refreshTokenValidation = (req: Request, res: Response, next: NextFu
 
     const refreshToken = req.cookies.refreshToken;
 
-    if (!refreshToken) return res.status(401).json({ status: 'failed', validation: false, message: "access token not valid..." });
+    if (!refreshToken) return res.status(401).json({ status: 'failed', validation: 'failed', message: "refresh token not valid..." });
 
-    const ACCESS_TOKEN_SECRET_KEY: string = process.env.ACCESS_JWT_TOKEN_SECRET_KEY || '';
+    const REFRESH_JWT_TOKEN_SECRET_KEY: string = process.env.REFRESH_JWT_TOKEN_SECRET_KEY || '';
 
-    jwt.verify(refreshToken, ACCESS_TOKEN_SECRET_KEY, (err: any, decoded: any) => {
+    jwt.verify(refreshToken, REFRESH_JWT_TOKEN_SECRET_KEY, (err: any, decoded: any) => {
         
-        if (err) return res.status(401).json({ status: 'failed', validation: false, message: "access token not valid..." });
+        if (err) return res.status(401).json({ status: 'failed', validation: 'failed', message: "refresh token not valid..." });
         
         (req as any).user = decoded;
         

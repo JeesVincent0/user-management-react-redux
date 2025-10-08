@@ -11,17 +11,13 @@ export const getUserData = createAsyncThunk(
 
             const data = await fetchData('/api/get-user-data', { method: "GET" });
 
-            console.log("This data is from the get thunk: ", data);
-            if (data.status === 'success') {
-                return data;
-            } else {
-                return rejectWithValue(data);
-            }
+            if (data.status === 'success') return data;
 
+            return rejectWithValue(data);
 
         } catch (error) {
 
-            rejectWithValue(error);
+            return rejectWithValue(error);
 
         }
     }

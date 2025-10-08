@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react"
+import { useReducer, useState } from "react"
 import { userLoginFormStyle } from "./userloginform.style";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -112,12 +112,6 @@ const UserLoginForm = () => {
 
 
   }
-
-  useEffect(() => {
-    if (user) {
-      navigate('/home')
-    }
-  }, [user, navigate])
 
   return (
     <div className={`${userLoginFormStyle.mainContainer}`}>

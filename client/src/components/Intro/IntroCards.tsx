@@ -4,6 +4,7 @@ import redux_icon from "../../assets/redux.svg";
 import { Link } from "react-router-dom";
 
 const IntroCards = () => {
+
     return (
         <div className={introStyle.mainCard}>
             <div className={introStyle.headingDiv}>

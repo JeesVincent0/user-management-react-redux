@@ -8,7 +8,7 @@ export interface IUser extends Document {
         houseName?: string;
         area?: string;
         city?: string;
-        pic?: string;
+        pin?: string;
         phone?: number;
     };
     isAdmin: boolean;

@@ -5,7 +5,7 @@ const jwtTokens = {
     generateAccessToken: (payload) => {
         const accessTokenSecretKey = process.env.ACCESS_JWT_TOKEN_SECRET_KEY || "my_screte_key_asldfhasodfbn987yighbjnr4wefd7yguiahkbnrt0gr9ehbvnqpaiuoyhrv63524wrvet8h754gsg585r4v845186w4t8sfd1s";
         return jwt.sign(payload, accessTokenSecretKey, {
-            expiresIn: '2m',
+            expiresIn: '1m',
         });
     },
     generateRefreshToken: (payload) => {

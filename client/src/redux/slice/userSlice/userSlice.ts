@@ -1,22 +1,34 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import { type InitialState } from "./type";
 import { createUser } from "../../middleware/createUserThunk";
 import { toast } from "react-toastify";
 import { loginUser } from "../../middleware/loginUserThunk";
 import { getUserData } from "../../middleware/getUserThunk";
 import { logoutUser } from "../../middleware/logoutUserThunk";
+import { updateUserProfile } from "../../middleware/updateUserThunk";
 
 const initialState: InitialState = {
     loading: false,
     error: null,
-    success: null,
     user: null,
+    isEditing: false,
+}
+
+interface ErrorPayload {
+    message: string;
 }
 
 const userSlice = createSlice({
     name: "user",
     initialState,
-    reducers: {},
+    reducers: {
+        setLoading(state) {
+            state.loading = false;
+        },
+        setisEditing(state, action) {
+            state.isEditing = action.payload;
+        }
+    },
     extraReducers: (builder) => {
         builder
 
@@ -30,6 +42,7 @@ const userSlice = createSlice({
                     closeButton: false,
                 });
                 state.loading = true;
+                state.user = null;
             })
             .addCase(createUser.fulfilled, (state, action) => {
                 toast.dismiss();
@@ -43,14 +56,15 @@ const userSlice = createSlice({
 
                 toast.dismiss();
 
-                if (action.payload && typeof action.payload === "string") {
-                    toast.error(`server: ${action.payload}`);
+                if (action.payload) {
+                    toast.error(`server: ${action.payload.message}`);
                 } else {
                     toast.error("Something went wrong...");
                     toast.error("try again...");
                 }
 
                 state.loading = false;
+                state.user = null;
             })
 
             // login
@@ -66,10 +80,12 @@ const userSlice = createSlice({
                 toast.dismiss();
                 toast.loading("Loading... please wait!")
                 state.loading = true;
+                state.user = null;
             })
-            .addCase(loginUser.rejected, (state, action) => {
+            .addCase(loginUser.rejected, (state, action: PayloadAction<ErrorPayload>) => {
                 toast.dismiss();
                 state.loading = false;
+                state.user = null;
                 if (action.payload && typeof action.payload?.message === 'string') toast.error(action.payload.message);
             })
 
@@ -80,7 +96,6 @@ const userSlice = createSlice({
             .addCase(getUserData.fulfilled, (state, action) => {
                 state.loading = false;
                 toast.dismiss();
-                toast.success("Welcome back!", { autoClose: 2000 });
                 state.user = action.payload.user;
             })
             .addCase(getUserData.rejected, (state) => {
@@ -100,9 +115,26 @@ const userSlice = createSlice({
             .addCase(logoutUser.fulfilled, (state) => {
                 state.loading = false;
                 state.error = null;
-                state.success = null;
                 state.user = null;
             })
+
+            // update user profile
+            .addCase(updateUserProfile.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+                state.isEditing = true;
+            })
+            .addCase(updateUserProfile.fulfilled, (state, action) => {
+                state.loading = false;
+                state.user = action.payload;
+                state.isEditing = false;
+            })
+            .addCase(updateUserProfile.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
+                toast.error(action.payload?.message, { autoClose: 3000 });
+                state.isEditing = true;
+            });
 
 
 
@@ -110,4 +142,5 @@ const userSlice = createSlice({
 
 })
 
+export const { setLoading, setisEditing } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import { logoutUser } from "../redux/middleware/logoutUserThunk";
 
 const BASE_URL = `http://localhost:3000`;
 
@@ -11,16 +12,17 @@ const fetchData = async (url: string, options = {}) => {
 
     const data = await response.json();
 
-    if (!response.ok && !data?.validation) {
+    if (!response.ok && data?.validation === 'failed') {
         const refreshResponse = await fetch(BASE_URL + `/api/refresh`, {
             method: 'POST',
+            credentials: 'include',
         })
 
         if (refreshResponse.ok) {
-            console.log("Refresh token is valid")
             return await fetchData(url, options);
         } else {
-            toast.dismiss();
+            toast.error("Please login again...")
+            logoutUser();
             return data
         }
     } else {

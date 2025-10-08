@@ -20,13 +20,14 @@ const userSchema = new Schema({
     },
     image: {
         type: String,
+        default: "",
     },
     address: {
-        houseName: { type: String },
-        area: { type: String },
-        city: { type: String },
-        pic: { type: String },
-        phone: { type: Number },
+        houseName: { type: String, default: "" },
+        area: { type: String, default: "" },
+        city: { type: String, default: "" },
+        pin: { type: String, default: "" },
+        phone: { type: Number, default: 0 },
     },
     isAdmin: {
         type: Boolean,

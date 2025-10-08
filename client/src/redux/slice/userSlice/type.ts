@@ -1,20 +1,26 @@
 export interface InitialState {
     loading: boolean;
-    error: null | Success;
-    success: null | Success;
-    user: User | null
-}
-
-interface Success {
-    color: string;
-    status: string;
+    error: null | string;
+    user: User | null;
+    isEditing: boolean;
 }
 
 export interface User {
-    id: string;
+    id?: string;
     name: string;
-    emial: string;
+    email: string;
+    address: Address;
     isAdmin: boolean;
+    image?: string;
+
+}
+
+interface Address {
+    houseName?: string;
+    area?: string;
+    city?: string;
+    pin?: string;
+    phone?: string;
 }
 
 export interface FormDataOne {
@@ -27,7 +33,7 @@ export interface FormDataOne {
 
 export interface ApiResponse {
     status: string;
-    data? : any;
+    data?: any;
     error?: string;
     user?: User;
 }

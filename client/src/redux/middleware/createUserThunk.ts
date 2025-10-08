@@ -14,8 +14,8 @@ export const createUser = createAsyncThunk(
 
             const data = await fetchData(`/api/signup`, options);
 
-            if (data.status === 'success') return data;
-            return rejectWithValue(data.error)
+            if (data.status === "success") return data;
+            return rejectWithValue(data)
 
         } catch (error) {
             return rejectWithValue(error)
